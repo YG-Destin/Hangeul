@@ -59,8 +59,8 @@ button {
   flex-wrap: nowrap;
 }
 .card {
-  width: 90px;
-  height: 130px;
+  width: 80px;
+  height: 120px;
   border-radius: 10px;
   background: linear-gradient(to bottom, #9EDCC2, #F9B0A5, #F9E5A9, #F8F8F8, #7181A5);
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
@@ -139,12 +139,15 @@ function drawCards() {
 
   // ---- 오라클 생성 ----
   if (kor) {
-    const group = document.createElement('div');
-    group.style.display = 'flex';
-    group.style.justifyContent = 'center';
-    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
-    group.style.gap = '16px';
-    group.style.marginBottom = '20px';
+  const group = document.createElement('div');
+group.style.display = 'flex';
+group.style.justifyContent = 'center';
+group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+group.style.gap = '12px';
+group.style.marginBottom = '20px';
+group.style.maxWidth = '300px';   // 추가
+group.style.marginLeft = 'auto';
+group.style.marginRight = 'auto';
     for (let i = 0; i < count; i++) {
       const type = cycle[i % 3];
       if (type === '초성') group.appendChild(makeCard(randomPick(consonants)));
@@ -156,33 +159,42 @@ function drawCards() {
 
   if (con) {
     const group = document.createElement('div');
-    group.style.display = 'flex';
-    group.style.justifyContent = 'center';
-    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
-    group.style.gap = '16px';
-    group.style.marginBottom = '20px';
+group.style.display = 'flex';
+group.style.justifyContent = 'center';
+group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+group.style.gap = '12px';
+group.style.marginBottom = '20px';
+group.style.maxWidth = '300px';   // 추가
+group.style.marginLeft = 'auto';
+group.style.marginRight = 'auto';
     for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(consonants)));
     board.appendChild(group);
   }
 
   if (vow) {
     const group = document.createElement('div');
-    group.style.display = 'flex';
-    group.style.justifyContent = 'center';
-    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
-    group.style.gap = '16px';
-    group.style.marginBottom = '20px';
+group.style.display = 'flex';
+group.style.justifyContent = 'center';
+group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+group.style.gap = '12px';
+group.style.marginBottom = '20px';
+group.style.maxWidth = '300px';   // 추가
+group.style.marginLeft = 'auto';
+group.style.marginRight = 'auto';
     for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(vowels)));
     board.appendChild(group);
   }
 
   if (fin) {
     const group = document.createElement('div');
-    group.style.display = 'flex';
-    group.style.justifyContent = 'center';
-    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
-    group.style.gap = '16px';
-    group.style.marginBottom = '20px';
+group.style.display = 'flex';
+group.style.justifyContent = 'center';
+group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+group.style.gap = '12px';
+group.style.marginBottom = '20px';
+group.style.maxWidth = '300px';   // 추가
+group.style.marginLeft = 'auto';
+group.style.marginRight = 'auto';
     for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(finals)));
     board.appendChild(group);
   }
