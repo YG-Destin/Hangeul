@@ -40,19 +40,23 @@ button {
 #board {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;  /* 중앙 정렬 */
+  justify-content: center;
   align-items: center;
   gap: 16px;
   margin-top: 35px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 340px;
+  transition: max-width 0.3s ease;
 }
 
-/* 한글 오라클 3장일 때 강제로 한 줄 유지 */
+/* 각 카드 개수별 폭 지정 */
+#board.one-line { max-width: 340px; }   /* 3장용 */
+#board.two-lines { max-width: 340px; }  /* 6장용 (3x2) */
+#board.three-lines { max-width: 340px; } /* 9장용 (3x3) */
+
+/* 3장일 때 줄바꿈 금지 */
 #board.three-cards {
-  flex-wrap: nowrap;         /* 줄바꿈 금지 */
-  max-width: none;           /* 중앙 제한 해제 */
+  flex-wrap: nowrap;
 }
 .card {
   width: 90px;
@@ -152,8 +156,12 @@ function drawCards() {
       board.innerHTML += `<div class="card">${randomPick(finals)}</div>`;
 
   // --- 카드 생성이 모두 끝난 뒤에 위치 ---
-  if (count === 3) board.classList.add('three-cards');
-}
+  board.classList.remove('three-cards','one-line','two-lines','three-lines');
+
+  if (count === 1) board.classList.add('one-line');
+  if (count === 3) board.classList.add('three-cards','one-line');
+  if (count === 6) board.classList.add('two-lines');
+  if (count === 9) board.classList.add('three-lines');
 </script>
 
 </body>
