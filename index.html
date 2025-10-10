@@ -116,7 +116,7 @@ function randomPick(arr) {
 function drawCards() {
   const board = document.getElementById('board');
   board.innerHTML = '';
-  board.classList.remove('three-cards');  // 매번 초기화 먼저
+  board.classList.remove('three-cards','one-line','two-lines','three-lines');
 
   const count = parseInt(document.querySelector('input[name="count"]:checked')?.value || 0);
   if (!count) return alert('배열 수를 선택하세요.');
@@ -130,38 +130,62 @@ function drawCards() {
 
   const cycle = ['초성','중성','종성'];
 
-  // --- 카드 생성 구간 ---
-  if (kor) {
-    for (let i = 0; i < count; i++) {
-      const type = cycle[i % 3];
-      const card = document.createElement('div');
-      card.className = 'card';
-      if (type === '초성') card.textContent = randomPick(consonants);
-      if (type === '중성') card.textContent = randomPick(vowels);
-      if (type === '종성') card.textContent = randomPick(finals);
-      board.appendChild(card);
-    }
+  function makeCard(text) {
+    const card = document.createElement('div');
+    card.className = 'card';
+    card.textContent = text;
+    return card;
   }
 
-  if (con)
-    for (let i = 0; i < count; i++)
-      board.innerHTML += `<div class="card">${randomPick(consonants)}</div>`;
+  // ---- 오라클 생성 ----
+  if (kor) {
+    const group = document.createElement('div');
+    group.style.display = 'flex';
+    group.style.justifyContent = 'center';
+    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+    group.style.gap = '16px';
+    group.style.marginBottom = '20px';
+    for (let i = 0; i < count; i++) {
+      const type = cycle[i % 3];
+      if (type === '초성') group.appendChild(makeCard(randomPick(consonants)));
+      if (type === '중성') group.appendChild(makeCard(randomPick(vowels)));
+      if (type === '종성') group.appendChild(makeCard(randomPick(finals)));
+    }
+    board.appendChild(group);
+  }
 
-  if (vow)
-    for (let i = 0; i < count; i++)
-      board.innerHTML += `<div class="card">${randomPick(vowels)}</div>`;
+  if (con) {
+    const group = document.createElement('div');
+    group.style.display = 'flex';
+    group.style.justifyContent = 'center';
+    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+    group.style.gap = '16px';
+    group.style.marginBottom = '20px';
+    for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(consonants)));
+    board.appendChild(group);
+  }
 
-  if (fin)
-    for (let i = 0; i < count; i++)
-      board.innerHTML += `<div class="card">${randomPick(finals)}</div>`;
+  if (vow) {
+    const group = document.createElement('div');
+    group.style.display = 'flex';
+    group.style.justifyContent = 'center';
+    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+    group.style.gap = '16px';
+    group.style.marginBottom = '20px';
+    for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(vowels)));
+    board.appendChild(group);
+  }
 
-  // --- 카드 생성이 모두 끝난 뒤에 위치 ---
-  board.classList.remove('three-cards','one-line','two-lines','three-lines');
-
-  if (count === 1) board.classList.add('one-line');
-  if (count === 3) board.classList.add('three-cards','one-line');
-  if (count === 6) board.classList.add('two-lines');
-  if (count === 9) board.classList.add('three-lines');
+  if (fin) {
+    const group = document.createElement('div');
+    group.style.display = 'flex';
+    group.style.justifyContent = 'center';
+    group.style.flexWrap = count === 3 ? 'nowrap' : 'wrap';
+    group.style.gap = '16px';
+    group.style.marginBottom = '20px';
+    for (let i = 0; i < count; i++) group.appendChild(makeCard(randomPick(finals)));
+    board.appendChild(group);
+  }
 }
 </script>
 
