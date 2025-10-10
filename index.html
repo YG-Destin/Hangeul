@@ -38,14 +38,13 @@ button {
   font-size: 0.95rem;
 }
 #board {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-  justify-content: center;   /* 수평 중앙 정렬 */
-  align-items: center;       /* 세로 중앙 정렬 */
-  justify-items: center;     /* 카드 자체도 중앙 */
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;  /* 전체 중앙 */
+  align-items: center;
   gap: 16px;
   margin-top: 35px;
-  max-width: 340px;          /* 3장 기준 중앙 폭 */
+  max-width: 340px;         /* 3장 기준 중앙 폭 */
   margin-left: auto;
   margin-right: auto;
 }
@@ -62,6 +61,7 @@ button {
   font-weight: bold;
   color: #111;
 }
+
 </style>
 </head>
 <body>
