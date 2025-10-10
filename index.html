@@ -39,8 +39,9 @@ button {
 }
 #board {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  justify-items: center;
+  grid-template-columns: repeat(3, minmax(0, 100px));
+  justify-content: center;     /* 가운데 정렬 핵심 */
+  align-items: center;         /* 세로 정렬 보정 */
   gap: 16px;
   margin-top: 35px;
 }
