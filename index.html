@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>JiNi Oracle Draw</title>
+<style>
+body {
+  font-family: system-ui, sans-serif;
+  text-align: center;
+  background: #f9f9f9;
+  padding: 40px;
+}
+fieldset { margin: 20px auto; width: 300px; text-align: left; }
+#board {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  margin-top: 40px;
+}
+.card {
+  width: 120px;
+  height: 180px;
+  border-radius: 10px;
+  background: linear-gradient(to bottom, #9EDCC2, #F9B0A5, #F9E5A9, #F8F8F8, #7181A5);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+}
+</style>
+</head>
+<body>
+
+<h1>지니 한글 오라클</h1>
+
+<fieldset>
+  <legend>오라클 종류</legend>
+  <label><input type="checkbox" id="kor"> 한글 오라클</label><br>
+  <label><input type="checkbox" id="con"> 자음 오라클 (행동·의지)</label><br>
+  <label><input type="checkbox" id="vow"> 모음 오라클 (감정·방향)</label><br>
+  <label><input type="checkbox" id="fin"> 받침 오라클 (결과·잠재)</label>
+</fieldset>
+
+<fieldset>
+  <legend>배열 고르기</legend>
+  <label><input type="radio" name="count" value="1"> 1장</label>
+  <label><input type="radio" name="count" value="3"> 3장</label>
+  <label><input type="radio" name="count" value="6"> 6장</label>
+  <label><input type="radio" name="count" value="9"> 9장</label>
+</fieldset>
+
+<button onclick="drawCards()">카드 뽑기</button>
+
+<div id="board"></div>
+
+<script>
+// 카드 풀
+const consonants = ['ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ','ㄲ','ㄸ','ㅃ','ㅆ','ㅉ'];
+const vowels = ['ㅏ','ㅑ','ㅓ','ㅕ','ㅗ','ㅛ','ㅜ','ㅠ','ㅡ','ㅣ','ㅐ','ㅔ','ㅘ','ㅙ','ㅚ','ㅝ','ㅞ','ㅟ','ㅢ','ㅒ','ㅖ'];
+const finals = [
+  'ㄱ','ㄴ','ㄷ','ㄹ','ㅁ','ㅂ','ㅅ','ㅇ','ㅈ','ㅊ','ㅋ','ㅌ','ㅍ','ㅎ',
+  'ㄱㅅ','ㄴㅈ','ㄴㅎ','ㄹㄱ','ㄹㅁ','ㄹㅂ','ㄹㅅ','ㄹㅌ','ㄹㅍ','ㄹㅎ','ㅂㅅ',
+  'ㄲ','ㅆ','없음'
+];
+
+function randomPick(arr) {
+  return arr[Math.floor(Math.random() * arr.length)];
+}
+
+function drawCards() {
+  const board = document.getElementById('board');
+  board.innerHTML = '';
+  const count = parseInt(document.querySelector('input[name="count"]:checked')?.value || 0);
+
+  if (!count) return alert('배열 수를 선택하세요.');
+
+  const kor = document.getElementById('kor').checked;
+  const con = document.getElementById('con').checked;
+  const vow = document.getElementById('vow').checked;
+  const fin = document.getElementById('fin').checked;
+
+  if (!(kor || con || vow || fin)) return alert('오라클 종류를 선택하세요.');
+
+  const cycle = ['초성','중성','종성'];
+
+  if (kor) {
+    // 한글 오라클: 초-중-종 순으로 3단 배치
+    for (let i = 0; i < count; i++) {
+      const type = cycle[i % 3];
+      const card = document.createElement('div');
+      card.className = 'card';
+      if (type === '초성') card.textContent = randomPick(consonants);
+      if (type === '중성') card.textContent = randomPick(vowels);
+      if (type === '종성') card.textContent = randomPick(finals);
+      board.appendChild(card);
+    }
+  }
+
+  if (con) {
+    for (let i = 0; i < count; i++) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = randomPick(consonants);
+      board.appendChild(card);
+    }
+  }
+
+  if (vow) {
+    for (let i = 0; i < count; i++) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = randomPick(vowels);
+      board.appendChild(card);
+    }
+  }
+
+  if (fin) {
+    for (let i = 0; i < count; i++) {
+      const card = document.createElement('div');
+      card.className = 'card';
+      card.textContent = randomPick(finals);
+      board.appendChild(card);
+    }
+  }
+}
+</script>
+
+</body>
+</html>
