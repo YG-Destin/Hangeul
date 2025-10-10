@@ -40,13 +40,19 @@ button {
 #board {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;  /* 전체 중앙 */
+  justify-content: center;  /* 중앙 정렬 */
   align-items: center;
   gap: 16px;
   margin-top: 35px;
-  max-width: 340px;         /* 3장 기준 중앙 폭 */
   margin-left: auto;
   margin-right: auto;
+  max-width: 340px;
+}
+
+/* 한글 오라클 3장일 때 강제로 한 줄 유지 */
+#board.three-cards {
+  flex-wrap: nowrap;         /* 줄바꿈 금지 */
+  max-width: none;           /* 중앙 제한 해제 */
 }
 .card {
   width: 90px;
@@ -106,6 +112,8 @@ function randomPick(arr) {
 function drawCards() {
   const board = document.getElementById('board');
   board.innerHTML = '';
+  board.classList.remove('three-cards');  // 매번 초기화 먼저
+
   const count = parseInt(document.querySelector('input[name="count"]:checked')?.value || 0);
   if (!count) return alert('배열 수를 선택하세요.');
 
@@ -118,6 +126,7 @@ function drawCards() {
 
   const cycle = ['초성','중성','종성'];
 
+  // --- 카드 생성 구간 ---
   if (kor) {
     for (let i = 0; i < count; i++) {
       const type = cycle[i % 3];
@@ -130,9 +139,20 @@ function drawCards() {
     }
   }
 
-  if (con) for (let i = 0; i < count; i++) board.innerHTML += `<div class="card">${randomPick(consonants)}</div>`;
-  if (vow) for (let i = 0; i < count; i++) board.innerHTML += `<div class="card">${randomPick(vowels)}</div>`;
-  if (fin) for (let i = 0; i < count; i++) board.innerHTML += `<div class="card">${randomPick(finals)}</div>`;
+  if (con)
+    for (let i = 0; i < count; i++)
+      board.innerHTML += `<div class="card">${randomPick(consonants)}</div>`;
+
+  if (vow)
+    for (let i = 0; i < count; i++)
+      board.innerHTML += `<div class="card">${randomPick(vowels)}</div>`;
+
+  if (fin)
+    for (let i = 0; i < count; i++)
+      board.innerHTML += `<div class="card">${randomPick(finals)}</div>`;
+
+  // --- 카드 생성이 모두 끝난 뒤에 위치 ---
+  if (count === 3) board.classList.add('three-cards');
 }
 </script>
 
