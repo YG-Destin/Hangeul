@@ -211,14 +211,25 @@ function drawCards() {
   const cycle = ['초성','중성','종성'];
 
   function makeCard(text) {
+  // 카드+뜻 전체를 감싸는 컨테이너
+  const wrapper = document.createElement('div');
+  wrapper.style.display = 'flex';
+  wrapper.style.flexDirection = 'column';
+  wrapper.style.alignItems = 'center';
+  wrapper.style.width = '80px';  // 카드 폭과 동일
+  wrapper.style.margin = '0 6px';
+  wrapper.style.textAlign = 'center';
+
+  // 카드 본체
   const card = document.createElement('div');
   card.className = 'card';
   card.textContent = text;
+  wrapper.appendChild(card);
 
+  // 클릭 시 뜻 토글
   card.addEventListener('click', () => {
-    // 이미 뜻이 열려 있으면 닫기
-    const existing = card.nextElementSibling;
-    if (existing && existing.classList.contains('meaning-box')) {
+    const existing = wrapper.querySelector('.meaning-box');
+    if (existing) {
       existing.remove();
       return;
     }
@@ -232,21 +243,16 @@ function drawCards() {
     meaning.innerHTML = `<strong>${keyword}</strong><br>${desc}`;
     meaning.style.fontSize = '0.8rem';
     meaning.style.marginTop = '6px';
-    meaning.style.textAlign = 'center';
     meaning.style.color = '#222';
     meaning.style.lineHeight = '1.3';
     meaning.style.whiteSpace = 'normal';
     meaning.style.wordWrap = 'break-word';
     meaning.style.overflowWrap = 'break-word';
-    meaning.style.maxWidth = '80px';
-    meaning.style.marginLeft = 'auto';
-    meaning.style.marginRight = 'auto';
 
-    // 카드 바로 아래에 추가
-    card.insertAdjacentElement('afterend', meaning);
+    wrapper.appendChild(meaning);
   });
 
-  return card;
+  return wrapper;
 }
 
   if (kor) {
