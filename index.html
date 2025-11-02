@@ -216,31 +216,39 @@ function drawCards() {
   card.textContent = text;
 
   card.addEventListener('click', () => {
-    // 이미 뜻이 열려 있으면 닫기
-    const existing = card.querySelector('.meaning');
-    if (existing) {
-      existing.remove();
+    const info = meanings[text];
+    if (!info) return;
+
+    const [keyword, desc] = info.split(' — ');
+
+    // 기존 뜻 영역 제거 후 새로 생성
+    let meaningArea = document.getElementById('meaning-area');
+    if (!meaningArea) {
+      meaningArea = document.createElement('div');
+      meaningArea.id = 'meaning-area';
+      meaningArea.style.marginTop = '30px';
+      meaningArea.style.textAlign = 'center';
+      meaningArea.style.lineHeight = '1.5';
+      meaningArea.style.fontSize = '0.9rem';
+      meaningArea.style.color = '#222';
+      meaningArea.style.maxWidth = '320px';
+      meaningArea.style.marginLeft = 'auto';
+      meaningArea.style.marginRight = 'auto';
+      meaningArea.style.whiteSpace = 'normal';
+      meaningArea.style.wordWrap = 'break-word';
+      meaningArea.style.overflowWrap = 'break-word';
+      card.parentElement.parentElement.appendChild(meaningArea);
+    }
+
+    // 같은 카드 다시 클릭 시 닫기
+    if (meaningArea.dataset.active === text) {
+      meaningArea.innerHTML = '';
+      meaningArea.dataset.active = '';
       return;
     }
 
-    // 뜻 추가
-    const info = meanings[text];
-    if (!info) return;
-    const [keyword, desc] = info.split(' — ');
-
-    const meaning = document.createElement('div');
-    meaning.className = 'meaning';
-    meaning.innerHTML = `<strong>${keyword}</strong><br>${desc}`;
-    meaning.style.fontSize = '0.8rem';
-    meaning.style.marginTop = '6px';
-    meaning.style.textAlign = 'center';
-    meaning.style.whiteSpace = 'normal';
-    meaning.style.wordWrap = 'break-word';
-    meaning.style.overflowWrap = 'break-word';
-    meaning.style.lineHeight = '1.3';
-    meaning.style.color = '#222';
-
-    card.appendChild(meaning);
+    meaningArea.innerHTML = `<strong>${text}</strong> : <b>${keyword}</b><br>${desc}`;
+    meaningArea.dataset.active = text;
   });
 
   return card;
